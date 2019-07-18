@@ -5,7 +5,8 @@ class Participant:
     "Participant class for use in evaluating the repairable threshold algorithms."
     participant_count = 0
 
-    def __init__(self, shares):
+    def __init__(self, id_num, shares):
+        self.id_num = id_num
         self.shares = shares
         self.missing_shares = None
         self.available = True
