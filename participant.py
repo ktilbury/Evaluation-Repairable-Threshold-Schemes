@@ -5,16 +5,17 @@ class Participant:
     "Participant class for use in evaluating the repairable threshold algorithms."
     participant_count = 0
 
-    def __init__(self, id_num, share, availability, repair_candidates):
-        self.id_num = id_num
+    def __init__(self, shares):
         self.shares = shares
         self.missing_shares = None
-        self.availability = availability
-        self.repair_candidates = repair_candidates  # This is the set R from algorithm 3
+        self.available = True
+        self.repair_candidates = []  # This is the set R from algorithm 3
         Participant.participant_count += 1
 
+    def is_available(self):
+        return self.available
 
-def import_participants(design):
-    participant_dic = {}
-    # depends on how we encode the designs
-    return participant_dic
+    def import_participants(design):
+        participant_dic = {}
+        # depends on how we encode the designs
+        return participant_dic
