@@ -45,16 +45,16 @@ def random_participants(participant_dic, failed_participant, p_available, fault=
             failed_participant.missing_shares.remove(shares[0])
         if not failed_participant.missing_shares:
             repaired = True
-    return True  # return True that repair was successful, will need a fail condition when using permanant fault
+    return True, steps  # return True that repair was successful, will need a fail condd when using permanant fault
 
 """
 Test algorithm
 """
 blocks = [[0, 1, 3], [0, 2, 6], [0, 4, 5], [1, 2, 4], [1, 5, 6], [2, 3, 5], [3, 4, 6]]
-availability_probabilities = [1] #, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
+availability_probabilities = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
 fault_model = "Transient"
 participants = {}
-num_iterations = 50
+num_iterations = 1000
 
 # Instantiate participants and add to dict
 for i, block in enumerate(blocks):
@@ -66,6 +66,7 @@ for prob in availability_probabilities:
     repair_wall_time = 0.0
     repair_process_time = 0.0
     failed_repairs = 0
+    total_contacted = 0
 
     for i in range(num_iterations):
 
@@ -73,18 +74,24 @@ for prob in availability_probabilities:
 
         start_wall_time = time.clock()
         start_process_time = time.process_time()
-
-        if random_participants(participants, participant_to_repair, prob, fault_model):
+        success, participants_contacted = random_participants(participants, participant_to_repair, prob, fault_model)
+        if success:
             repair_wall_time += (time.clock() - start_wall_time)
             repair_process_time += (time.process_time() - start_process_time)
+            total_contacted += participants_contacted
         else:
             failed_repairs += 1
 
     success_repairs = num_iterations - failed_repairs
     avg_wall_time = repair_wall_time/success_repairs
     avg_process_time = repair_process_time/success_repairs
+    avg_participants_contacted = total_contacted/success_repairs
 
     print("Availability probabilty: " + str(prob) + "\n" +
           "Failed repairs: " + str(failed_repairs) + "\n" +
-          "Total wall clock time of " + str(repair_wall_time) + " with average of " + str(avg_wall_time) + " per repair" + "\n" +
-          "Total process time of " + str(repair_process_time) + " with average of " + str(avg_process_time) + " per repair")
+          "Total wall clock time of " + str(repair_wall_time) + " with average of " + str(avg_wall_time) + " per repair\n" +
+          "Total process time of " + str(repair_process_time) + " with average of " + str(avg_process_time) + " per repair\n"+
+          "Total participants contacted during successful repairs: " + str(total_contacted) + "\n" +
+          "Average participants contacted per successful repair:" + str(avg_participants_contacted))
+    print("___________________________________________________________________________________________________________")
+
