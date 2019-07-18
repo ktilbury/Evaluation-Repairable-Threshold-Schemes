@@ -7,15 +7,15 @@ import time
 import numpy as np
 
 
-def get_shares(missing_shares, available_shares):
-    return list(set(missing_shares).intersection(available_shares))
+def get_intersecting_shares(missing_shares, available_shares):
+    return list(set(missing_shares).intersection(set(available_shares)))
 
 
 def random_participants(participant_dic, failed_participant, p_available, fault="Transient"):
     faults = ["Permanent", "Transient"]
     assert fault in faults
 
-    failed_participant.missing_shares = failed_participant.shares
+    failed_participant.missing_shares = failed_participant.shares.copy()
 
     steps = 0
     repaired = False
@@ -40,11 +40,11 @@ def random_participants(participant_dic, failed_participant, p_available, fault=
                     participant_dic.pop(P_id)  # remove from the dict and don't consider contacting again
                     continue
 
-        shares = get_shares(failed_participant.missing_shares, P.shares)
+        shares = get_intersecting_shares(failed_participant.missing_shares, P.shares)
         if shares:
             failed_participant.missing_shares.remove(shares[0])
-            if not failed_participant.missing_shares:
-                repaired = True
+        if not failed_participant.missing_shares:
+            repaired = True
     return True  # return True that repair was successful, will need a fail condition when using permanant fault
 
 """
@@ -54,7 +54,7 @@ blocks = [[0, 1, 3], [0, 2, 6], [0, 4, 5], [1, 2, 4], [1, 5, 6], [2, 3, 5], [3, 
 availability_probabilities = [1] #, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
 fault_model = "Transient"
 participants = {}
-num_iterations = 1
+num_iterations = 50
 
 # Instantiate participants and add to dict
 for i, block in enumerate(blocks):
