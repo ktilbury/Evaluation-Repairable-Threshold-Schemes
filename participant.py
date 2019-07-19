@@ -10,7 +10,8 @@ class Participant:
         self.shares = shares
         self.missing_shares = None
         self.available = True
-        self.repair_candidates = []  # This is the set R from algorithm 3
+        self.intersecting_participants = []  # This is the set R from alforithm 2
+        self.grouped_participants = {}  # This is the set R from algorithm 3
         Participant.participant_count += 1
 
     def is_available(self):
