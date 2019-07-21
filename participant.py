@@ -9,13 +9,10 @@ class Participant:
         self.id_num = id_num
         self.shares = shares
         self.missing_shares = None
-        self.available = True
-        self.intersecting_participants = []  # This is the set R from alforithm 2
+        self.intersecting_participants = []  # This is the set R from algorithm 2
         self.grouped_participants = {}  # This is the set R from algorithm 3
         Participant.participant_count += 1
 
-    def is_available(self):
-        return self.available
 
     def import_participants(design):
         participant_dic = {}
