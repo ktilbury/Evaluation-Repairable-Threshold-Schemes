@@ -121,7 +121,7 @@ def stored_grouped_participants(participant_dic, failed_participant, p_available
     steps = 0
     for s in missing_shares:
         repaired = False
-        s_repair_candidates = grouped_participants.get(s)
+        s_repair_candidates = grouped_participants.get(s).copy()
 
         while not repaired and s_repair_candidates:
             # Select random participant from the set of repair candidates for this subshare s:

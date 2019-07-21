@@ -73,7 +73,10 @@ for prob in availability_probabilities:
 
         start_wall_time = time.clock()
         start_process_time = time.process_time()
-        success, participants_contacted = random_participants(participants_copy, participant_to_repair, prob, fault_model)
+        #Algorithms here
+        # success, participants_contacted = random_participants(participants_copy, participant_to_repair, prob, fault_model)
+        # success, participants_contacted = stored_intersecting_participants(participants_copy, participant_to_repair, prob, fault_model)
+        success, participants_contacted = stored_grouped_participants(participants_copy, participant_to_repair, prob, fault_model)
         end_wall_time = (time.clock() - start_wall_time)
         end_process_time = (time.process_time() - start_process_time)
 
@@ -83,6 +86,8 @@ for prob in availability_probabilities:
             total_success_contacted += participants_contacted
         elif not success:
             failed_repairs += 1
+            fail_wall_time += end_wall_time
+            fail_process_time += end_process_time
             total_failed_contacted += participants_contacted
 
     success_repairs = num_iterations - failed_repairs
