@@ -124,7 +124,7 @@ def stored_grouped_participants(participant_dic, failed_participant, p_available
         s_repair_candidates = grouped_participants.get(s)
 
         while not repaired and s_repair_candidates:
-            # Select random participant from the set of intersecting participants:
+            # Select random participant from the set of repair candidates for this subshare s:
             P_id = np.random.choice(s_repair_candidates)
 
             steps += 1
