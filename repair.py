@@ -26,7 +26,7 @@ def random_participants(participant_dic, failed_participant, p_available, fault=
     faults = ["Permanent", "Transient"]
     assert fault in faults
 
-    failed_participant.missing_shares = failed_participant.shares.copy()
+    missing_shares = failed_participant.shares.copy()
 
     steps = 0
     repaired = False
@@ -48,12 +48,12 @@ def random_participants(participant_dic, failed_participant, p_available, fault=
                 continue
 
         # Request values for any of the subshares needing to be repaired
-        shares = get_intersecting_shares(failed_participant.missing_shares, P.shares)
+        shares = get_intersecting_shares(missing_shares, P.shares)
         if shares:
-            failed_participant.missing_shares.remove(shares[0])
+            missing_shares.remove(shares[0])
 
         # Check if repair is successful
-        if not failed_participant.missing_shares:
+        if not missing_shares:
             # repaired = True
             return True, steps  # return True that repair was successful, and steps (ie # of participants contacted)
 
@@ -61,27 +61,55 @@ def random_participants(participant_dic, failed_participant, p_available, fault=
 def stored_intersecting_participants(participant_dic, failed_participant, p_available, fault="Transient"):
     """
     Algorithm 2: Stored Intersecting Participants
-    :param participant_dic: the full set of participants
-    :param failed_participant: the participant whose share is being repaired
+    :param participant_dic: the dictionary of participants with failed_participant removed (as to not contact self)
+    :param failed_participant: the participant object whose share is being repaired
     :param p_available: availability probability
-    :param fault: the fault model to be used
+    :param fault: the fault model to be used {"Permanent", "Transient"}
     :return: Boolean (whether repair was successful) and int (# of steps taken to repair aka # participants contacted)
     """
     faults = ["Permanent", "Transient"]
     assert fault in faults
 
-    failed_participant.missing_shares = failed_participant.shares.copy()
+    missing_shares = failed_participant.shares.copy()
+    intersecting_participants = failed_participant.intersecting_participants.copy()
 
     steps = 0
+    repaired = False
+    while not repaired:
+        # Select random participant from the set of intersecting participants:
+        P_id = np.random.choice(intersecting_participants)
+        P = participant_dic[P_id]
 
-    # if shares:
-    #     failed_participant.missing_shares.remove(shares[0])
-    # if not failed_participant.missing_shares:
-    #     # repaired = True
-    #     return True, steps  # return True that repair was successful, and steps (ie # of participants contacted)
-    # elif steps >= 1000000:
-    #     return False, steps  # return False that repair unsuccessful after arbitrarily large number of steps
+        steps += 1
+        # See if the participant is available
+        if fault == "Transient":
+            if np.random.random_sample() > p_available:
+                continue
+        elif fault == "Permanent":
+            if np.random.random_sample() > p_available:
+                intersecting_participants.remove(P_id)  # remove from the list and don't consider contacting again
+                if not intersecting_participants:  # if no more participants to try contacting, repair has failed
+                    return False, steps
+                continue
+
+        # Request values for any of the subshares still needing to be repaired
+        shares = get_intersecting_shares(missing_shares, P.shares)
+        if shares:
+            missing_shares.remove(shares[0])
+
+        # Check if repair is successful
+        if not missing_shares:
+            # repaired = True
+            return True, steps  # return True that repair was successful, and steps (ie # of participants contacted)
 
 
-
-
+def stored_grouped_participants(participant_dic, failed_participant, p_available, fault="Transient"):
+    """
+    Algorithm 3: Stored Grouped Participants
+    :param participant_dic: the dictionary of participants with failed_participant removed (as to not contact self)
+    :param failed_participant: the participant object whose share is being repaired
+    :param p_available: availability probability
+    :param fault: the fault model to be used {"Permanent", "Transient"}
+    :return: Boolean (whether repair was successful) and int (# of steps taken to repair aka # participants contacted)
+    """
+    return False, 0

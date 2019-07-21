@@ -8,7 +8,6 @@ class Participant:
     def __init__(self, id_num, shares):
         self.id_num = id_num
         self.shares = shares
-        self.missing_shares = None
         self.intersecting_participants = []  # This is the set R from algorithm 2
         self.grouped_participants = {}  # This is the set R from algorithm 3
         Participant.participant_count += 1
