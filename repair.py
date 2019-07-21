@@ -112,4 +112,35 @@ def stored_grouped_participants(participant_dic, failed_participant, p_available
     :param fault: the fault model to be used {"Permanent", "Transient"}
     :return: Boolean (whether repair was successful) and int (# of steps taken to repair aka # participants contacted)
     """
-    return False, 0
+    faults = ["Permanent", "Transient"]
+    assert fault in faults
+
+    missing_shares = failed_participant.shares.copy()
+    grouped_participants = failed_participant.grouped_participants.copy()
+
+    steps = 0
+    for s in missing_shares:
+        repaired = False
+        s_repair_candidates = grouped_participants.get(s)
+
+        while not repaired and s_repair_candidates:
+            # Select random participant from the set of intersecting participants:
+            P_id = np.random.choice(s_repair_candidates)
+
+            steps += 1
+            # See if the participant is available
+            if fault == "Transient":
+                if np.random.random_sample() > p_available:
+                    continue
+            elif fault == "Permanent":
+                if np.random.random_sample() > p_available:
+                    s_repair_candidates.remove(P_id)  # remove from the list and don't consider contacting again
+                    continue
+
+            # Since available, share s is repaired
+            repaired = True
+
+        if not repaired:
+            return False, steps
+
+    return True, steps
