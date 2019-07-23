@@ -146,12 +146,12 @@ Test algorithm
 design_blocks = [[0, 1, 3], [0, 2, 6], [0, 4, 5], [1, 2, 4], [1, 5, 6], [2, 3, 5], [3, 4, 6]]
 avail_probs = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
 fault_models_list = ["Permanent", "Transient"]
-num_repair_iterations = 1
+num_repair_iterations = 10000
 repair_algos_list = [random_participants, stored_intersecting_participants, stored_grouped_participants]
 
 data = evaluate_design(design_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 
 # save to CSV or can plot or analyze data from DF
-print(data)
+data.to_csv("7,3,1-BIBD_sample_results.csv", encoding='utf-8', index=False)
 
 
