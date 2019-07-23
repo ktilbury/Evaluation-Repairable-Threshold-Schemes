@@ -151,6 +151,7 @@ repair_algos_list = [random_participants, stored_intersecting_participants, stor
 
 data = evaluate_design(design_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 
+# save to CSV or can plot or analyze data from DF
 print(data)
 
 
