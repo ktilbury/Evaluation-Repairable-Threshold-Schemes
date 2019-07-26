@@ -145,33 +145,42 @@ Test algorithm
 """
 avail_probs = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
 fault_models_list = ["Permanent", "Transient"]
-num_repair_iterations = 10000
+num_repair_iterations = 1000
 repair_algos_list = [random_participants, stored_intersecting_participants, stored_grouped_participants]
 
+print("Evaluating...")
 # design (7, 7, 3, 3, 1)-BIBD, gives threshold of 2
 d_blocks = [[0, 1, 3], [0, 2, 6], [0, 4, 5], [1, 2, 4], [1, 5, 6], [2, 3, 5], [3, 4, 6]]
 data = evaluate_design(d_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 data.to_csv("7,7,3,3,1-BIBD_results.csv", encoding='utf-8', index=False)
+print("Done.")
 
+print("Evaluating...")
 # design (9, 12, 4, 3, 1)-BIBD
 d_blocks = [[0, 3, 6], [0, 4, 7], [2, 4, 6], [6, 7, 8], [0, 5, 8], [3, 4, 5], [2, 3, 8], [2, 5, 7], [1, 4, 8],
             [1, 3, 7], [0, 1, 2], [1, 5, 6]]
 data = evaluate_design(d_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 data.to_csv("9,12,4,3,1-BIBD_results.csv", encoding='utf-8', index=False)
+print("Done.")
 
+print("Evaluating...")
 # design (13, 13, 4, 4, 1)-BIBD
 d_blocks = [[0, 2, 4, 6], [6, 8, 10, 12], [6, 7, 9, 11], [0, 5, 8, 9], [4, 5, 10, 11], [0, 3, 11, 12], [3, 4, 7, 8],
             [2, 3, 9, 10], [1, 4, 9, 12], [2, 5, 7, 12], [1, 3, 5, 6], [1, 2, 8, 11], [0, 1, 7, 10]]
 data = evaluate_design(d_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 data.to_csv("13,13,4,4,1-BIBD_results.csv", encoding='utf-8', index=False)
+print("Done.")
 
+print("Evaluating...")
 # design (16, 20, 5, 4, 1)-BIBD
 d_blocks = [[0, 1, 13, 15], [2, 5, 11, 12], [3, 5, 10, 15], [9, 11, 14, 15], [9, 10, 12, 13], [0, 2, 6, 10],
             [0, 3, 8, 11], [7, 8, 10, 14], [6, 8, 12, 15], [0, 4, 12, 14], [0, 5, 7, 9], [6, 7, 11, 13], [4, 5, 8, 13],
             [3, 4, 6, 9], [2, 4, 7, 15], [2, 3, 13, 14], [1, 5, 6, 14], [1, 4, 10, 11], [1, 3, 7, 12], [1, 2, 8, 9]]
 data = evaluate_design(d_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 data.to_csv("16,20,5,4,1-BIBD_results.csv", encoding='utf-8', index=False)
+print("Done.")
 
+print("Evaluating...")
 # design (21, 21, 5, 5, 1)-BIBD
 d_blocks = [[2, 4, 7, 9, 10], [2, 5, 11, 16, 20], [0, 1, 10, 11, 12], [1, 9, 13, 16, 17], [3, 10, 13, 15, 20],
             [0, 9, 14, 19, 20], [1, 4, 8, 18, 20], [7, 8, 11, 13, 14], [1, 5, 7, 15, 19], [6, 8, 10, 16, 19],
@@ -180,7 +189,9 @@ d_blocks = [[2, 4, 7, 9, 10], [2, 5, 11, 16, 20], [0, 1, 10, 11, 12], [1, 9, 13,
             [0, 2, 8, 15, 17]]
 data = evaluate_design(d_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 data.to_csv("21,21,5,5,1-BIBD_results.csv", encoding='utf-8', index=False)
+print("Done.")
 
+print("Evaluating...")
 # design (25, 30, 6, 5, 1)-BIBD, gives threshold of 2 or 3 depending on base scheme and repairing degree d of 5
 d_blocks = [[9, 11, 16, 18, 21], [3, 10, 16, 19, 23], [5, 8, 10, 20, 22], [6, 15, 17, 18, 22], [3, 5, 7, 14, 18],
             [3, 6, 9, 20, 24], [0, 9, 10, 13, 17], [0, 11, 14, 19, 22], [2, 13, 18, 19, 20], [2, 4, 16, 22, 24],
@@ -190,7 +201,9 @@ d_blocks = [[9, 11, 16, 18, 21], [3, 10, 16, 19, 23], [5, 8, 10, 20, 22], [6, 15
             [1, 5, 11, 13, 24], [1, 4, 10, 12, 18], [0, 1, 2, 3, 15], [1, 7, 9, 22, 23], [1, 14, 16, 17, 20]]
 data = evaluate_design(d_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 data.to_csv("25,30,6,5,1-BIBD_results.csv", encoding='utf-8', index=False)
+print("Done.")
 
+print("Evaluating...")
 # design (31, 31, 6, 6, 1)-BIBD
 d_blocks = [[0, 5, 8, 24, 27, 28], [2, 6, 10, 15, 28, 29], [2, 3, 5, 9, 11, 20], [3, 6, 7, 19, 23, 27],
             [4, 6, 11, 17, 24, 25], [9, 12, 16, 19, 25, 28], [7, 9, 18, 24, 29, 30], [10, 13, 19, 20, 21, 24],
@@ -202,7 +215,9 @@ d_blocks = [[0, 5, 8, 24, 27, 28], [2, 6, 10, 15, 28, 29], [2, 3, 5, 9, 11, 20],
             [1, 4, 7, 20, 22, 28], [1, 3, 12, 15, 24, 26], [1, 11, 16, 21, 27, 29]]
 data = evaluate_design(d_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 data.to_csv("31,31,6,6,1-BIBD_results.csv", encoding='utf-8', index=False)
+print("Done.")
 
+print("Evaluating...")
 # design (36, 42, 7, 6, 1)-BIBD
 d_blocks = [[2, 4, 10, 12, 29, 35], [2, 5, 8, 24, 29, 35], [0, 3, 10, 13, 29, 35], [2, 6, 9, 13, 29, 35],
             [4, 17, 20, 24, 29, 35], [2, 7, 14, 17, 29, 35], [3, 6, 8, 14, 29, 35], [3, 7, 12, 16, 28, 34],
@@ -217,3 +232,4 @@ d_blocks = [[2, 4, 10, 12, 29, 35], [2, 5, 8, 24, 29, 35], [0, 3, 10, 13, 29, 35
             [0, 1, 8, 20, 24, 30], [1, 2, 11, 15, 25, 30]]
 data = evaluate_design(d_blocks, avail_probs, fault_models_list, num_repair_iterations, repair_algos_list)
 data.to_csv("36,42,7,6,1-BIBD_results.csv", encoding='utf-8', index=False)
+print("Done.")
